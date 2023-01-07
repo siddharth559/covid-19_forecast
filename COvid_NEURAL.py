@@ -21,7 +21,7 @@ deaths = [148664, 148880, 149095, 149295, 149560, 149782, 150015, 150244, 150457
 death_increase = [237, 216, 215, 200, 265, 222, 233, 229, 213, 150, 166, 200, 201, 189, 176, 181, 145, 137, 162, 152, 161, 153, 156, 131, 116, 138, 123, 162, 137, 128, 116, 94, 113, 107, 120, 95, 75, 86, 78, 94, 110, 85, 104, 89, 91, 82, 99, 100, 100, 100, 89, 83, 76, 103, 141, 119, 114, 111, 108, 92, 98, 87, 113, 109, 100, 97, 76, 133, 125, 119, 140, 159, 120, 130, 187, 171, 156, 188, 196, 213, 197, 277, 249, 257, 292, 311, 295, 266, 355, 458, 468, 713, 514, 477, 446, 630, 684, 802, 773, 838, 904, 880, 1026, 1038, 1184, 1338, 1498, 1620, 1757, 2021, 2101, 2257, 2620, 2761, 2808, 2762, 3286, 3646, 3502, 3525, 3685, 3423, 3439, 3786, 3979, 3923, 4233, 4092, 3749, 3879, 4198, 4128, 4000, 3889, 4077, 4098, 4334, 4529, 3877, 4209, 4194, 3739, 4454, 3509, 4160, 3843, 3659, 3611, 3463, 3130, 2781]
 
 P = 1200000000 #population of india
-
+print('before',len(case_increase))
 #
 #DI = k( I - R )( P - I )  [neglecting deaths and reinfection rates  and assuming the govt figures are correct]
 #DR = Q( I - D - R )
@@ -85,6 +85,16 @@ for jk in range(100):
 #print(case_increase)
 import matplotlib.pyplot as pl
 
+
+error_array = [[],[]]
+for i in range(63):
+	error_array[0].append((actual_case_increase[151:214][i] - case_increase[151:214][i])/actual_case_increase[151:214][i]*100)
+	if i < 59:
+		error_array[1].append((actual_recovery_increase[151:210][i] - recovery_increase[151:210][i])/actual_recovery_increase[151:210][i]*100)
+
+
+pl.rcParams['figure.figsize'] = [10,10]
+pl.title('covid-19 india data \n cases forecast accuracy = {} \n recovery forecast accuracy = {}'.format(100-np.average(error_array[0]).__round__(4),100-np.average(error_array[1]).__round__(4)))
 pl.plot(case_increase,label="forecasted cases")
 #pl.plot(total_cases)
 pl.plot(recovery_increase, label="forecasted recovery")
@@ -92,5 +102,9 @@ pl.plot(actual_case_increase, label="actual cases")
 pl.plot(actual_recovery_increase, label="actual recovery")
 pl.legend()
 pl.show()
+
+
+
+
 
 
